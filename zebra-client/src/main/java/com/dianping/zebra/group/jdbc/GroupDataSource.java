@@ -68,9 +68,10 @@ public class GroupDataSource extends C3p0DataSourceAdapter implements GroupDataS
 
 	protected static final Logger LOGGER = LoggerFactory.getLogger(GroupDataSource.class);
 
-	// key
+	// 配置key
 	protected String jdbcRef;
 
+	// 连接池类型，默认hikaricp光
 	// support six type : "c3p0" , "tomcat-jdbc" , "druid" , "dbcp" , "dbcp2" or "hikaricp"
 	protected String poolType = "hikaricp";
 
@@ -84,13 +85,17 @@ public class GroupDataSource extends C3p0DataSourceAdapter implements GroupDataS
 
 	protected SystemConfigManager systemConfigManager;
 
+	// ds配置管理器，从ConfigService拉取配置
 	protected DataSourceConfigManager dataSourceConfigManager;
 
 	// router
 	protected boolean useCustomRouterConfig = false;
 
+	// 默认同中心(机房）根据权重路由
 	protected String routerStrategy = Constants.ROUTER_STRATEGY_CENTER_AWARE_ROUTER;
 
+	//路由类型：默认主从 也可配置为只读从库
+	//影响是只从 readDataSource 获取物理连接还是根据sql类型和hint来选择
 	protected RouterType routerType = RouterType.MASTER_SLAVE;
 
 	// other
@@ -555,7 +560,7 @@ public class GroupDataSource extends C3p0DataSourceAdapter implements GroupDataS
 		SingleDataSourceManagerFactory.getDataSourceManager().init();
 		// 初始化主库和从库的SingleDataSource
 		initDataSources();
-		// 初始化读写策略
+		// 初始化读写策略，可以强指定读master
 		initReadWriteStrategy();
 		// 将GroupDataSource自身加入到 配置刷新列表中，每隔60秒会检查一次配置，如果发生变更的话会重新拉取配置 重建sds
 		DataSourceConfigRefresh.getInstance().register(this);
