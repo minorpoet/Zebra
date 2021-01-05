@@ -12,7 +12,7 @@
 		<!--必填，填写url的地址-->
 		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/zebra?characterEncoding=UTF8"/>
 		<property name="user" value="root" />
-		<property name="password" value="123456" />
+		<property name="password" value="12345678" />
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<!-- 选填，默认值为"c3p0",还支持"tomcat-jdbc","druid","dbcp2" -->
 		<property name="poolType" value="hikaricp" />
@@ -38,7 +38,7 @@
 		<!--必填，填写url的地址-->
 		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/zebra?characterEncoding=UTF8"/>
 		<property name="user" value="root" />
-		<property name="password" value="123456" />
+		<property name="password" value="12345678" />
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<!-- 选填，默认值为"c3p0",还支持"tomcat-jdbc"或者"druid" -->
 		<property name="poolType" value="hikaricp" />
@@ -64,7 +64,7 @@
 		<!--必填，填写url的地址-->
 		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/zebra?characterEncoding=UTF8"/>
 		<property name="user" value="root" />
-		<property name="password" value="123456" />
+		<property name="password" value="12345678" />
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<!-- 选填，默认值为"c3p0",还支持"tomcat-jdbc"或者"druid" -->
 		<property name="poolType" value="hikaricp" />
@@ -90,7 +90,7 @@
 		<!--必填，填写url的地址-->
 		<property name="jdbcUrl" value="jdbc:mysql://127.0.0.1:3306/zebra?characterEncoding=UTF8"/>
 		<property name="user" value="root" />
-		<property name="password" value="123456" />
+		<property name="password" value="12345678" />
 		<property name="driverClass" value="com.mysql.jdbc.Driver" />
 		<!-- 选填，默认值为"c3p0",还支持"tomcat-jdbc"或者"druid" -->
 		<property name="poolType" value="hikaricp" />

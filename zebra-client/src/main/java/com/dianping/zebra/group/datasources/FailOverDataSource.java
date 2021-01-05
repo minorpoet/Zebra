@@ -64,7 +64,7 @@ public class FailOverDataSource extends AbstractDataSource {
 					break;
 				}
 			}
-
+			// 校验db连接配置有效性
 			checkConfig(masterConfig);
 
 			if (masterConfig == null) {

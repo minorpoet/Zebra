@@ -68,8 +68,10 @@ public class ShardColumnValueUtil {
 		if (!ShardDataSourceHelper.extractParamsOnlyFromThreadLocal()) {
 			Map<String, Collection<Object>> columnValueMap = new LinkedHashMap<String, Collection<Object>>();
 			int maxColumnCount = 0;
+			// 遍历分表规则，取出分片列名
 			for (String shardColumn : shardColumns) {
 				InExprListWrapper inExprWrapper = new InExprListWrapper();
+				// eval(), 解析sqlStatement中的where表达式 和 分片列进行匹配，并返回对应的字段值
 				Collection<Object> columnValues = eval(ctx.getParseResult(), ctx.getParams(), shardColumn, isRange,
 				      isBatchInsert, inExprWrapper);
 				maxColumnCount = (columnValues.size() > maxColumnCount) ? columnValues.size() : maxColumnCount;
@@ -166,6 +168,7 @@ public class ShardColumnValueUtil {
 		}
 
 		List<Object> result = new LinkedList<Object>();
+		// 从SQLStatement中解析where表达式
 		SQLExpr where = getWhere(parseResult);
 		if (where != null) {
 			List<Pair> pairs = new ArrayList<Pair>();
