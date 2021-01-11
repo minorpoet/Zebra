@@ -205,21 +205,37 @@ public class GroupConnection implements Connection {
 		return rConnection;
 	}
 
+	/**
+	 * 获取真实数据库物理连接，读写分离逻辑
+	 * @param sql
+	 * @param forceWrite
+	 * @return
+	 * @throws SQLException
+	 */
 	Connection getRealConnection(String sql, boolean forceWrite) throws SQLException {
+		// 1. 根据路由策略
+		// (1) slaveOnly，则从读数据源获取连接
+		// (2) masterOnly, 则只从写(主)库数据源获取连接
 		if (this.routerType == RouterType.SLAVE_ONLY) {
 			return getReadConnection();
 		} else if (this.routerType == RouterType.MASTER_ONLY) {
 			return getWriteConnection();
 		}
 
+		// 2. 执行update语句时候, 强制走写库
 		if (forceWrite) {
 			return getWriteConnection();
-		} else if (!autoCommit || StringUtils.trimToEmpty(sql).contains(Constants.SQL_FORCE_WRITE_HINT)) {
+		}
+		// 3. sql注释中包含 走写库的hint ("/*+zebra:w*/")
+		else if (!autoCommit || StringUtils.trimToEmpty(sql).contains(Constants.SQL_FORCE_WRITE_HINT)) {
 			return getWriteConnection();
-		} else if (readWriteStrategy != null && readWriteStrategy.shouldReadFromMaster()) {
+		}
+		// 4. 读写策略(java api形式) 从写库读数据
+		else if (readWriteStrategy != null && readWriteStrategy.shouldReadFromMaster()) {
 			return getWriteConnection();
 		}
 
+		// 5. 没有强制路由策略和hint， 则解析sql字符串动态判断sql类型是读请求还写请求
 		SqlType sqlType = SqlUtils.getSqlType(sql);
 		if (sqlType.isRead()) {
 			return getReadConnection();

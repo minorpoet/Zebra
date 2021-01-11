@@ -149,7 +149,7 @@ public class GroupDataSourceTest extends MultiDatabaseTestCase {
 		Assert.assertEquals(4, ds.getConfig().getFilters().split(",").length);
 
 		// refresh
-		ds.setInitialPoolSize(2);
+		ds.setInitialPoolSize(4);
 		Assert.assertTrue(ds.getConfig().getFilters().contains("cat"));
 		Assert.assertTrue(ds.getConfig().getFilters().contains("stat"));
 		Assert.assertEquals(4, ds.getConfig().getFilters().split(",").length);
