@@ -120,6 +120,7 @@ public class ShardDataSource extends ShardDataSourceConfigAdapter {
 
 	private void initInternal() {
 		this.router = routerFactory.build();
+		// 只有DefaultShardRouter一个实现类，所以一定会执行
 		if (this.router instanceof DefaultShardRouter) {
 			((DefaultShardRouter) this.router).setOptimizeShardKeyInSql(this.optimizeShardKeyInSql);
 		}
@@ -136,7 +137,7 @@ public class ShardDataSource extends ShardDataSourceConfigAdapter {
 			dataSourceRepository.init(this.router.getRouterRule(), this.shardDataSourceCustomConfig);
 		}
 
-		// init thread pool
+		// 初始化sql执行线程池，读写操作可以分别创建单独的线程池
 		SQLThreadPoolExecutor.getInstance(false);
 		if (SQLThreadPoolExecutor.readWriteSplitPool) {
 			SQLThreadPoolExecutor.getInstance(true);

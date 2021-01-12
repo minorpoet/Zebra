@@ -25,15 +25,25 @@ import javax.sql.DataSource;
 import java.sql.SQLException;
 
 public interface DataSourcePool {
-	public DataSource build(DataSourceConfig config, boolean withDefaultValue);
+	/**
+	 * 构建真实连接池对象（未初始化）
+	 * @param config
+	 * @param withDefaultValue
+	 * @return
+	 */
+	DataSource build(DataSourceConfig config, boolean withDefaultValue);
 
-	public void close(SingleDataSource singleDataSource, boolean forceClose) throws SQLException;
+	void close(SingleDataSource singleDataSource, boolean forceClose) throws SQLException;
 
-	public DataSource getInnerDataSourcePool();
+	/**
+	 * 返回原始连接池对象
+	 * @return
+	 */
+	DataSource getInnerDataSourcePool();
 
-	public int getNumBusyConnection();
+	int getNumBusyConnection();
 
-	public int getNumConnections();
+	int getNumConnections();
 
-	public int getNumIdleConnection();
+	int getNumIdleConnection();
 }

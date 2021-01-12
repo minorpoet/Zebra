@@ -93,9 +93,11 @@ public class SingleDataSource extends C3p0DataSourceAdapter implements DataSourc
 		this.punisher = new CountPunisher(this, config.getTimeWindow(), config.getPunishLimit());
 		this.filters = filters;
 		this.poolType = config.getType();
+		// 懒加载
 		this.lazyInit = config.isLazyInit();
 		this.withDefalutValue = true;
 		this.forceClose = false;
+		// 根据配置底层数据库连接池适配器
 		this.dataSourcePool = DataSourcePoolFactory.buildDataSourcePool(config);
 
 		initDataSourceWithFilters(config);
@@ -309,6 +311,12 @@ public class SingleDataSource extends C3p0DataSourceAdapter implements DataSourc
 		}
 	}
 
+	/**
+	 * 初始化底层数据库连接池
+	 *
+	 * @param value
+	 * @return
+	 */
 	private DataSource initDataSourceOrigin(DataSourceConfig value) {
 		DataSource result = this.dataSourcePool.build(value, withDefalutValue);
 
